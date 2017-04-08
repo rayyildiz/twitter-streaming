@@ -79,9 +79,8 @@ type directMessageNotice struct {
 }
 
 type Event struct {
-	Event     string `json:"event"`
-	CreatedAt string `json:"created_at"`
-	// TODO: add List or deprecate it
+	Event        string `json:"event"`
+	CreatedAt    string `json:"created_at"`
 	TargetObject *Tweet `json:"target_object"`
 }
 

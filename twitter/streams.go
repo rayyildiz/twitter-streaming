@@ -51,12 +51,12 @@ func newStream(httpClient *util.HttpClient, req *http.Request) *Stream {
 	return stream
 }
 
-func (this *StreamService) Sample() (*Stream, error) {
-	req, err := this.public.New().Get("statuses/sample.json").Request()
+func (s *StreamService) Sample() (*Stream, error) {
+	req, err := s.public.New().Get("statuses/sample.json").Request()
 	if err != nil {
 		return nil, err
 	}
-	return newStream(this.client, req), nil
+	return newStream(s.client, req), nil
 }
 
 // Stream filter . I just need language right now
@@ -65,42 +65,42 @@ type StreamFilterParams struct {
 	Track     []string `url:"track,omitempty,comma"`
 }
 
-func (this *StreamService) Filter(p *StreamFilterParams) (*Stream, error) {
-	req, err := this.public.New().Post("statuses/filter.json").Query(p).Request()
+func (s *StreamService) Filter(p *StreamFilterParams) (*Stream, error) {
+	req, err := s.public.New().Post("statuses/filter.json").Query(p).Request()
 	if err != nil {
 		return nil, err
 	}
-	return newStream(this.client, req), nil
+	return newStream(s.client, req), nil
 }
 
-func (this *Stream) Stop() {
-	close(this.ok)
+func (s *Stream) Stop() {
+	close(s.ok)
 
-	if this.body != nil {
-		this.body.Close()
+	if s.body != nil {
+		s.body.Close()
 	}
 
-	this.syncGroup.Wait()
+	s.syncGroup.Wait()
 }
 
-func (this *Stream) retry(req *http.Request, expBackOff backoff.BackOff, aggExpBackOff backoff.BackOff) {
-	defer close(this.Messages)
-	defer this.syncGroup.Done()
+func (s *Stream) retry(req *http.Request, expBackOff backoff.BackOff, aggExpBackOff backoff.BackOff) {
+	defer close(s.Messages)
+	defer s.syncGroup.Done()
 
 	var wait time.Duration
-	for !stopped(this.ok) {
-		resp, err := this.client.Doer.Do(req)
+	for !stopped(s.ok) {
+		resp, err := s.client.Doer.Do(req)
 		if err != nil {
-			this.Messages <- err
+			s.Messages <- err
 			return
 		}
 
 		defer resp.Body.Close()
-		this.body = resp.Body
+		s.body = resp.Body
 		switch resp.StatusCode {
 		case 200:
 			// receive stream response Body, handles closing
-			this.receive(resp.Body)
+			s.receive(resp.Body)
 			expBackOff.Reset()
 			aggExpBackOff.Reset()
 		case 503:
@@ -119,23 +119,23 @@ func (this *Stream) retry(req *http.Request, expBackOff backoff.BackOff, aggExpB
 		if wait == backoff.Stop {
 			return
 		}
-		sleepOrDone(wait, this.ok)
+		sleepOrDone(wait, s.ok)
 	}
 }
 
-func (this *Stream) receive(body io.ReadCloser) {
+func (s *Stream) receive(body io.ReadCloser) {
 	defer body.Close()
 	scanner := bufio.NewScanner(body)
 	scanner.Split(scanLines)
-	for !stopped(this.ok) && scanner.Scan() {
+	for !stopped(s.ok) && scanner.Scan() {
 		token := scanner.Bytes()
 		if len(token) == 0 {
 			continue
 		}
 		select {
-		case this.Messages <- getMessage(token):
+		case s.Messages <- getMessage(token):
 			continue
-		case <-this.ok:
+		case <-s.ok:
 			return
 		}
 	}

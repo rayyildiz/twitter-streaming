@@ -3,25 +3,31 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/rayyildiz/twitter-streaming/api"
-	"github.com/rayyildiz/twitter-streaming/conf"
-	"github.com/rayyildiz/twitter-streaming/twitter"
-	"golang.org/x/net/websocket"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/rayyildiz/twitter-streaming/api"
+	"github.com/rayyildiz/twitter-streaming/conf"
+	"github.com/rayyildiz/twitter-streaming/twitter"
+	"golang.org/x/net/websocket"
+	"os"
 )
 
-const VERSION = `0.0.1`
+// VERSION number of program
+const VERSION = `0.2`
 
+// Msg structure for client-server side
 type Msg struct {
 	Count int    `json:"count"`
 	Text  string `json:"text"`
 }
 
+// Messages is for list of Msg.
 type Messages []Msg
 
+// Handle http request and return response.
 func Handle(message interface{}, ws *websocket.Conn) {
 	var err error
 
@@ -41,6 +47,7 @@ func Handle(message interface{}, ws *websocket.Conn) {
 	}
 }
 
+// WordCount is for count word in a string.
 func WordCount(s string) Messages {
 	strs := strings.Fields(s)
 	res := make(map[string]int)
@@ -71,6 +78,7 @@ var (
 	twitterConf conf.TwitterKey
 )
 
+// main method for application.
 func main() {
 	log.Println("Application is starting")
 
@@ -105,21 +113,42 @@ func main() {
 		fmt.Println(err)
 	}
 
+	if len(strings.TrimSpace(c.Twitter.AccessTokenKey)) == 0 {
+		log.Println("You have to define 'AccessTokenKey'. More info use documentation.")
+		os.Exit(1)
+	}
+
+	if len(strings.TrimSpace(c.Twitter.AccessTokenSecret)) == 0 {
+		log.Println("You have to define 'AccessTokenSecret'. More info use documentation.")
+		os.Exit(1)
+	}
+
+	if len(strings.TrimSpace(c.Twitter.ConsumerKey)) == 0 {
+		log.Println("You have to define 'ConsumerKey'. More info use documentation.")
+		os.Exit(1)
+	}
+
+	if len(strings.TrimSpace(c.Twitter.ConsumerSecret)) == 0 {
+		log.Println("You have to define 'ConsumerSecret'. More info use documentation.")
+		os.Exit(1)
+	}
+
 	log.Println("Created conf. Now create http Handler")
 
 	twitterConf = c.Twitter
 
 	// go initTwitter(c.Twitter)
-	initHttp(c)
+	initHTTP(c)
 
 	log.Println("App started successfully")
 }
 
+// initTwitter object.
 func initTwitter(c conf.TwitterKey) {
 
 	twitterClient, err := twitter.NewClient(&c)
 	if err != nil {
-		fmt.Errorf("Error creating new client")
+		fmt.Println("Error creating new client")
 	}
 
 	p := &twitter.StreamFilterParams{
@@ -127,7 +156,7 @@ func initTwitter(c conf.TwitterKey) {
 	}
 	filter, err := twitterClient.Streams.Filter(p)
 	if err != nil {
-		fmt.Println("Could not create a stream")
+		log.Println("Could not create a stream")
 		return
 	}
 	defer filter.Stop()
@@ -138,19 +167,20 @@ func initTwitter(c conf.TwitterKey) {
 
 	filterController, err := api.NewFilterController(&c)
 	if err != nil {
-		fmt.Errorf("Some error while creating controller %s", err)
+		fmt.Printf("Some error while creating controller %s\n", err)
 		return
 	}
 
 	filterController.FilterByLocation(p.Localtion)
 }
 
+// Filter for websocket.
 func Filter(ws *websocket.Conn) {
 	var err error
 
 	twitterClient, err := twitter.NewClient(&twitterConf)
 	if err != nil {
-		fmt.Errorf("Error creating new client")
+		log.Println("Error creating new client")
 	}
 
 	for {
@@ -181,7 +211,8 @@ func Filter(ws *websocket.Conn) {
 
 }
 
-func initHttp(c *conf.Configuration) {
+// initHTTP for application
+func initHTTP(c *conf.Configuration) {
 	// Static http serve
 	if c.Port == 0 {
 		c.Port = 3000

@@ -24,7 +24,7 @@ type TwitterClient struct {
 
 func NewClient(conf *conf.TwitterKey) (*TwitterClient, error) {
 	// OAuth http.Client will automatically authorize Requests
-	myHttpClient, err := newHttpCLient(conf.ConsumerKey, conf.ConsumerSecret, conf.AccessTokenKey, conf.AccessTokenSecret)
+	myHttpClient, err := newHttpClient(conf.ConsumerKey, conf.ConsumerSecret, conf.AccessTokenKey, conf.AccessTokenSecret)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func NewClient(conf *conf.TwitterKey) (*TwitterClient, error) {
 	return &client, nil
 }
 
-func newHttpCLient(consumerKey, consumerSecret, accessToken, accessSecret string) (*http.Client, error) {
+func newHttpClient(consumerKey, consumerSecret, accessToken, accessSecret string) (*http.Client, error) {
 	config := oauth1.NewConfig(consumerKey, consumerSecret)
 	token := oauth1.NewToken(accessToken, accessSecret)
 

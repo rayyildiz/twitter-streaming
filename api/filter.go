@@ -14,7 +14,7 @@ type FilterController struct {
 func NewFilterController(c *conf.TwitterKey) (*FilterController, error) {
 	twitterClient, err := twitter.NewClient(c)
 	if err != nil {
-		fmt.Errorf("Error creating new client")
+		fmt.Println("Error creating new client")
 		return nil, err
 	}
 
@@ -26,10 +26,10 @@ func NewFilterController(c *conf.TwitterKey) (*FilterController, error) {
 	return &controller, nil
 }
 
-func (this *FilterController) FilterByLocation(locations []string) {
+func (f *FilterController) FilterByLocation(locations []string) {
 	params := &twitter.StreamFilterParams{
 		Localtion: []string{"-74,40,-73,41", "-122.75,36.8", "-121.75,37.8"}, // NYC, SF
 	}
 
-	this.client.Streams.Filter(params)
+	f.client.Streams.Filter(params)
 }

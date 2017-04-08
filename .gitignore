@@ -1,10 +1,10 @@
+### Project specific folders and files ###
 twitter-streaming
 twitterStreaming
 public
 frontend/build
+.idea/
 
-
-# Created by https://www.gitignore.io/api/emacs,go,macos,ubuntu,nodejs,vagrant,linux,vim
 
 ### Emacs ###
 # -*- mode: gitignore; -*-
@@ -109,14 +109,6 @@ Temporary Items
 .apdisk
 
 
-#!! ERROR: ubuntu is undefined. Use list command to see defined gitignore types !!#
-
-#!! ERROR: nodejs is undefined. Use list command to see defined gitignore types !!#
-
-### Vagrant ###
-.vagrant/
-
-
 ### Linux ###
 *~
 
@@ -145,8 +137,6 @@ Session.vim
 # auto-generated tag files
 tags
 
-
-# Created by https://www.gitignore.io/api/node,linux
 
 ### Node ###
 # Logs

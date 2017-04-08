@@ -2,12 +2,12 @@ package twitter
 
 import "github.com/rayyildiz/twitter-streaming/util"
 
-type StatusServie struct {
+type StatusService struct {
 	client *util.HttpClient
 }
 
-func newStatusService(httpClient *util.HttpClient) *StatusServie {
-	return &StatusServie{
+func newStatusService(httpClient *util.HttpClient) *StatusService {
+	return &StatusService{
 		client: httpClient,
 	}
 }

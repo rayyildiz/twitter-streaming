@@ -1,7 +1,5 @@
 FROM rayyildiz/base
 
-MAINTAINER "Ramazan AYYILDIZ <rayyildiz@gmail.com>"
-
 ADD twitterStreaming /app/tws
 ADD public           /app/public
 ADD config.json      /app/

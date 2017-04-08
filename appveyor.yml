@@ -1,0 +1,33 @@
+version: "{build}"
+
+# Source Config
+clone_folder: c:\gopath\src\github.com\rayyildiz\twitter-streaming
+
+environment:
+    GOPATH: c:\gopath
+    GOVERSION: 1.9.0
+
+init:
+    - git config --global core.autocrlf input
+
+install:
+    - choco install golang --version %GOVERSION% -y
+    - set Path=c:\go\bin;c:\gopath\bin;%Path%
+    - go version
+    - go env
+    - go get github.com/modocache/gover
+    - go get github.com/mattn/goveralls
+    - go get golang.org/x/tools/cmd/cover
+    - go get golang.org/x/net/websocket
+    - go get gopkg.in/redis.v4
+    - go get github.com/cenkalti/backoff
+    - go get github.com/dghubble/oauth1
+    - go get github.com/google/go-querystring/query
+    - go get golang.org/x/net/websocket
+
+build: false
+deploy: false
+
+test_script:
+    - go build github.com/rayyildiz/twitter-streaming
+

@@ -1,8 +1,8 @@
 {
   "name": "twitter-streaming-frontend",
-  "version": "0.0.1",
+  "version": "0.2",
   "description": "witter Stream Froneend written by react",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "email": "rayyildiz@gmail.com",
   "url": "http://about.me/rayyildiz",
   "repository": {

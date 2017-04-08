@@ -18,7 +18,7 @@ type Configuration struct {
 }
 
 func Load(filePath string) (*Configuration, error) {
-	config := Configuration{
+	_config := Configuration{
 		Port: 3000,
 		Twitter: TwitterKey{
 			ConsumerSecret:    "z9xRHwVjbiDyvH2LftdyZGnkYwISl7Cfj7L8iDQAdhfCcEmllx",
@@ -30,12 +30,12 @@ func Load(filePath string) (*Configuration, error) {
 
 	file, err := os.Open(filePath)
 	if err != nil {
-		return &config, err
+		return &_config, err
 	}
 
 	decoder := json.NewDecoder(file)
 
-	err = decoder.Decode(&config)
+	err = decoder.Decode(&_config)
 
-	return &config, err
+	return &_config, err
 }

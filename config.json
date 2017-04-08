@@ -1,0 +1,10 @@
+{
+    "Port":3000,
+    "Twitter" : {
+	"ConsumerKey":"",
+	"ConsumerSecret":"",
+	"AccessTokenKey":"",
+	"AccessTokenSecret":""
+    }
+}
+
