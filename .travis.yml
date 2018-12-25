@@ -1,23 +1,12 @@
 language: go
 go:
-- 1.4.x
-- 1.5.x
-- 1.6.x
-- 1.7.x
-- 1.8.x
-- 1.9.x
-before_install:
-- go get github.com/modocache/gover
-- go get github.com/mattn/goveralls
-- go get golang.org/x/tools/cmd/cover
-- go get golang.org/x/net/websocket
-- go get gopkg.in/redis.v4
-- go get github.com/cenkalti/backoff
-- go get github.com/dghubble/oauth1
-- go get github.com/google/go-querystring/query
-- go get golang.org/x/net/websocket
+- 1.11.2
+before_scripts:
+- go mod tidy
 script:
+- go test -race ./... 
 - go build .
 notifications:
+  email: false
   slack:
     secure: AIgl4Jj/dS5MlboHtbUWn1XbGr+0tcQd3oWqueeKXnuWRWZse1DWpAJPCYfIc7FpSGDJx/sUgEKSZB84MHhTv1qT1OX2Y20cPbhqyj6OdL00fLyF3Gc1SZIjiQtgUgSnLYhZxvz9pIA/6h4xTcst/GbgnKQI1X4+b7Z0zM9kuI4iTeRf3J5sHMw7PDdh4S8Xt+vUSwXqRyRL7Ws8hQ526Yl/Z+AP+1YMemWtpUv/IsXDba1+DDDGnyjoLQz0R41r8pZWlznJ/QnXdKffjfSB5LxxL3pzpOssufR14sFYMCYe4Qn65sebdj6jXbv9z5JQpLF4/sgPieHtA/v4NGaT+zfkvyzI+aQavYJV9X7kBaQJ48rji+78Q/P+NTmK6dpsFBSXCQue7B03zgCB2E0DRG3JpiUOZ2tbWevHkumUt8m3GoDU1lNrnoiOfsjjYQr6+/869USoeIhf7sSWF1fiZ0TbI+8EMqfC8TgKJg3m1mqimB5xn6+6qgaM9UkkZAz0EAxspfvhk/n+VcHF8PGh/vQQQOXWhc4Td1qdS/UvEzrJjz7pY4G1fcagBrZqK9W4X4ieqMLrv+QI9c4QEaGxCcdGXzucI5FSluOhyevhhiSsz5EaQqnQbD0RVqUZfMQ7B9EQEK1fH3eAKuVUSCgwnsZSqQAo/VxLlAtl9GAArKM=

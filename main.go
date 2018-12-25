@@ -16,7 +16,7 @@ import (
 )
 
 // VERSION number of program
-const VERSION = `0.2`
+const VERSION = `0.3`
 
 // Msg structure for client-server side
 type Msg struct {
