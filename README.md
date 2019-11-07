@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/rayyildiz/twitter-streaming.svg?branch=master)](https://travis-ci.org/rayyildiz/twitter-streaming)
 [![Build status](https://ci.appveyor.com/api/projects/status/6ek3rjd4scu62i7t?svg=true)](https://ci.appveyor.com/project/rayyildiz/twitter-streaming)
 [![Go Report Card](https://goreportcard.com/badge/github.com/rayyildiz/twitter-streaming)](https://goreportcard.com/report/github.com/rayyildiz/twitter-streaming)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frayyildiz%2Ftwitter-streaming.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frayyildiz%2Ftwitter-streaming?ref=badge_shield)
 
 ## First Step
 
@@ -73,3 +74,7 @@ Now just execute ```make run``` and hit the http://localhost:3000 (if port is __
 If you have problem and install the docker, you can execute ```make docker build``` and  ```make docker-run``` . This commans build and run the application at docker.
 
 You can find the docker image at https://hub.docker.com/r/rayyildiz/twitter-streaming/
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frayyildiz%2Ftwitter-streaming.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frayyildiz%2Ftwitter-streaming?ref=badge_large)
