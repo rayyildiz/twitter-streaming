@@ -1,4 +1,4 @@
-FROM golang:1.11 as builder1
+FROM golang as builder1
 WORKDIR /src
 
 ADD api .
@@ -10,7 +10,7 @@ ADD main.go .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o tws .
 
 
-FROM node:8-jessie as builder2
+FROM node:lts as builder2
 WORKDIR /src
 ADD frontend/ .
 RUN npm install
