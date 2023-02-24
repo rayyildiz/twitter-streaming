@@ -1,13 +1,6 @@
 # Initialize project, fetch required dependencies for golang and nodejs
 initialize:
-	go get golang.org/x/net/websocket
-	go get gopkg.in/redis.v4
-	go get github.com/cenkalti/backoff
-	go get github.com/dghubble/oauth1
-	go get github.com/google/go-querystring/query
-	go get golang.org/x/net/websocket
-
-	npm install -g create-react-app
+	go mod download
 	cd  ./frontend && npm update
 
 # Deprecated (not need anymore, because it requires frontend)
